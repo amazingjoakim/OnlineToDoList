@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>To Do List</title>
+    <style>
+        #general {
+            border: 2px solid lightgrey;
+            height: 100%;
+            width: 90%;
+            margin-left: 5%;
+            background-color: white;
+            overflow-y: scroll;
+        }
+
+        body {
+            height: 800px;
+            width: 1900px;
+            background-color: #e8e8e8;
+        }
+
+        .listbox {
+            background-color: #ec8840;
+            width: 90%;
+            height: 15%;
+            margin-left: 5%;
+        }
+
+        h3 {
+            font-size: 40px;
+            margin-left: 4%;
+            width: 50%;
+            margin-bottom: -0.5%;
+        }
+
+        .dead {
+            float: left;
+            width: 15%;
+            font-size: 25px;
+            margin-left: 7%;
+        }
+
+        h1 {
+            margin-left: 5%;
+            float: left;
+        }
+
+        .status {
+            float: left;
+            padding-right: 1%;
+            font-size: 25px;
+        }
+
+        .dropbtn {
+            font-size: 40px;
+            float: right;
+            margin-right: 5%;
+            background-color: #ec8840;
+            width: 55px;
+            text-align: center;
+            height: 55px;
+            margin-top: 0.9%;
+            border: 0px;
+            cursor: pointer;
+        }
+
+        #update {
+            float: right;
+            font-size: 40px;
+            margin-right: 5%;
+            background-color: #ec8840;
+            height: 7%;
+            width: 7%;
+            text-align: center;
+            margin-top: 0.5%;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            float: right;
+            margin-right: 5%;
+        }
+
+        .dropdown-content {
+            display: none; /*normalt 'none'*/
+            position: absolute;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            width: 300px;
+            height: 380px;
+            right: 0;
+            float: right;
+            background-color: #e8e8e8;
+            border: 2px solid #ec8840;
+        }
+
+        #formw {
+            background-color: white;
+            width: 75%;
+            height: 300px;
+            margin-left: 12.5%;
+            margin-top: 12.5%;
+            border-radius: 3%;
+            padding: 4px;
+            box-sizing: border-box;
+        }
+
+        label {
+            float: left;
+        }
+
+        input {
+            float: left;
+            margin-right: 150px;
+            height: 5%;
+        }
+
+        select {
+            float: left;
+            margin-top: 2px;
+            margin-right: 190px;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown:hover {
+            margin-right: 5px;
+        }
+
+        #submit {
+            border: 0px;
+            width: 50%;
+            margin-left: 25%;
+            margin-top: 15%;
+            float: left;
+            background-color: #ec8840;
+            border-radius: 15px;
+            padding: 5px;
+            text-align: center;
+        }
+
+        .formbox {
+            float: left;
+            margin-top: 2%;
+        }
+
+        .del {
+            background-color: red;
+            width: 2%;
+            height: 100%;
+            float: right;
+            align-self: center;
+        }
+
+        .numbox {
+            width: 2.5%;
+            float: right;
+            margin-right: 2%;
+            height: 10%;
+            margin-top: 0.5%;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>To Do List</h1>
+        <div class="dropdown">
+            <button class="dropbtn">+</button>
+            <div class="dropdown-content">
+                <form id="formw">
+                    <label>Titel</label>
+                    <input type="text" name="activity" />
+                    <label>datum</label>
+                    <input type="text" name="date" />
+                    <br />
+                    <div id="submit" onclick="additem()">Lägg Till</div>
+                </form>
+
+
+            </div>
+        </div>
+    </header>
+    <div id="general">

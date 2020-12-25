@@ -1,0 +1,181 @@
+    </div>
+    <div id="update" onclick="start()">
+        update
+    </div>
+    <form hidden id="hiddenform">
+        <input type="text" value="" name="tasks" />
+        <input type="text" value="" name="qdate" />
+    </form>
+    <script>
+        var item = document.getElementsByClassName('listbox');
+        var general = document.getElementById("general");
+        var list;
+        var list2;
+		
+		setvalue();
+
+        function start() {
+            orderlist();
+            save();
+        }
+
+        function additem() {
+            //values from form
+            var date = document.getElementsByName("date")[0].value;
+            var activity = document.getElementsByName("activity")[0].value;
+
+            //adds html
+            var maintext = "<div class='listbox'> \n"
+                + "<div class='del' onclick='del(this.childNodes[1].innerText)'> \n"
+                + "<p hidden class='hidp'>" + activity + "</p></div> \n"
+                + "<h3>" + activity + "</h3> \n"
+                + "<p class='dead'> Deadline: " + date + "</p> \n"
+                + "<p class='status'> Status: " + "\n"
+                + "<form class='formbox'><select name='boxstatus'>"
+                + "<option value = 'b'>Not Started</option><option value='c'>Done</option><option value='a'>Under Way</option></select ></form> \n "
+                + "<form> <input class='numbox' type='number' name='order'> </form> \n"
+                + "</p> </div>"
+            general.insertAdjacentHTML('beforeend', maintext);
+            setvalue();
+        }
+
+        function setvalue() {
+            //sets "order" value to index
+            var set = document.getElementsByName("order");
+            for (var i = 0; i < set.length; i++) {
+                set[i].value = i + 1;
+            }
+        }
+
+        function orderlist() {
+            //makes arrays empty
+            list = [];
+            list2 = [];
+            item = document.getElementsByClassName("listbox");
+            var to = document.getElementsByName("order");
+            sel();
+
+            //loops to check positions of number
+            for (var i = 0; i < item.length; i++) {
+                for (var j = 0; j < item.length; j++) {
+   
+                    //if item[j] wants to be in position i
+                    if (to[j].value - 1 == i) {
+                      move(j);
+                    }
+                    else if (!to[j].value) {
+                        break;
+                    }
+                }
+            }
+           
+            //prints new order of items
+            for (var i = 0; i < list.length; i++) {
+                if (to[i].value) {
+                    item[i].innerHTML = list2[i];
+                }
+            }
+            setvalue();
+        }
+
+        function move(move) {
+            item = document.getElementsByClassName('listbox');
+
+            //adds items innerhtml to list array
+            if (list.length == 0) {
+                for (var i = 0; i < item.length; i++) {
+                    list.push(item[i].innerHTML);
+                }
+            }
+
+            //adds item[move] to list2 arrays last position
+            list2.push(list[move]);
+        }
+
+        function del(act) {
+            var hidden = document.getElementsByClassName("hidp");
+            var general = document.getElementById("general");
+
+            //loops to check title of the item and deletes item
+            for (var i = 0; i < hidden.length; i++) {
+                if (hidden[i].innerHTML == act) {
+                    general.removeChild(item[i]);
+                }
+            }
+        }
+
+        function sel() {
+            var uselec = document.getElementsByName("boxstatus");
+            for (var i = 0; i < item.length; i++) {
+                for (var j = 0; j < 3; j++) {
+                    var bool = uselec[i].childNodes[j].hasAttribute("selected");
+                    if (bool) {
+                        uselec[i].childNodes[j].removeAttribute("selected");
+                    }
+                }
+            }
+
+            for (var i = 0; i < item.length; i++) {
+                if (uselec[i].value == "a") {
+                    uselec[i].childNodes[2].setAttribute("selected", "selected");
+                    document.getElementsByClassName("listbox")[i].style.backgroundColor = "#28a2fa";
+                }
+                else if (uselec[i].value == "b") {
+                    uselec[i].childNodes[0].setAttribute("selected", "selected");
+                    document.getElementsByClassName("listbox")[i].style.backgroundColor = "#f04d24";
+                }
+                else if (uselec[i].value == "c") {
+                    uselec[i].childNodes[1].setAttribute("selected", "selected");
+                    document.getElementsByClassName("listbox")[i].style.backgroundColor = "#24f05a";
+                }
+            }
+        }
+
+        function order() {
+            list = [];
+            list2 = [];
+            sel();
+
+            var status = document.getElementsByName("boxstatus");
+            for (var h = 0; h < item.length; h++) {
+                if (status[h].value == "a") {
+                    move(h);
+                }
+            }
+
+            for (var j = 0; j < item.length; j++) {
+
+                if (status[j].value == "b") {
+                    move(j);
+                }
+            }
+
+            for (var i = 0; i < item.length; i++) {
+
+                if (status[i].value == "c") {
+                    move(i);
+                }
+            }
+
+            for (var i = 0; i < list.length; i++) {
+                item[i].innerHTML = list2[i];
+
+            }
+            setvalue();
+        }
+
+        function save() {
+            var form = document.getElementById("hiddenform");
+            document.getElementsByName("tasks")[0].value = document.getElementsByClassName('hidp')[0].innerText;
+            console.log(document.getElementsByClassName('hidp')[0].innerText);
+            var det = document.getElementsByClassName('dead')[0].innerText.split(' ');
+            //form.lastChild.childNodes[1].value = det[1];
+            document.getElementsByName("qdate")[0].value = det[1];
+            console.log(document.getElementsByName("qdate")[0].value);
+            form.submit();
+        }
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,353 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>To Do List</title>
+    <style>
+        #general {
+            border: 2px solid lightgrey;
+            height: 100%;
+            width: 90%;
+            margin-left: 5%;
+            background-color: white;
+            overflow-y: scroll;
+        }
+
+        body {
+            height: 800px;
+            width: 1900px;
+            background-color: #e8e8e8;
+        }
+
+        .listbox {
+            width: 90%;
+            height: 15%;
+            margin-left: 5%;
+        }
+
+        h3 {
+            font-size: 40px;
+            margin-left: 4%;
+            width: 50%;
+            margin-bottom: -0.5%;
+        }
+
+        .dead {
+            float: left;
+            width: 15%;
+            font-size: 25px;
+            margin-left: 7%;
+        }
+
+        h1 {
+            margin-left: 5%;
+            float: left;
+        }
+
+        .status {
+            float: left;
+            padding-right: 1%;
+            font-size: 25px;
+        }
+
+        .dropbtn {
+            font-size: 40px;
+            float: right;
+            margin-right: 5%;
+            background-color: #ec8840;
+            width: 55px;
+            text-align: center;
+            height: 55px;
+            margin-top: 0.9%;
+            border: 0px;
+            cursor: pointer;
+        }
+
+        #update {
+            float: right;
+            font-size: 40px;
+            margin-right: 5%;
+            background-color: #ec8840;
+            height: 7%;
+            width: 7%;
+            text-align: center;
+            margin-top: 0.5%;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            float: right;
+            margin-right: 5%;
+        }
+
+        .dropdown-content {
+            display: none; /*normalt 'none'*/
+            position: absolute;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            width: 300px;
+            height: 380px;
+            right: 0;
+            float: right;
+            background-color: #e8e8e8;
+            border: 2px solid #ec8840;
+        }
+
+        #formw {
+            background-color: white;
+            width: 75%;
+            height: 300px;
+            margin-left: 12.5%;
+            margin-top: 12.5%;
+            border-radius: 3%;
+            padding: 4px;
+            box-sizing: border-box;
+        }
+
+        label {
+            float: left;
+        }
+
+        input {
+            float: left;
+            margin-right: 150px;
+            height: 5%;
+        }
+
+        select {
+            float: left;
+            margin-top: 2px;
+            margin-right: 190px;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown:hover {
+            margin-right: 5px;
+        }
+
+        #submit {
+            border: 0px;
+            width: 50%;
+            margin-left: 25%;
+            margin-top: 15%;
+            float: left;
+            background-color: #ec8840;
+            border-radius: 15px;
+            padding: 5px;
+            text-align: center;
+        }
+
+        .formbox {
+            float: left;
+            margin-top: 2%;
+        }
+
+        .del {
+            background-color: red;
+            width: 2%;
+            height: 100%;
+            float: right;
+            align-self: center;
+        }
+
+        .numbox {
+            width: 2.5%;
+            float: right;
+            margin-right: 2%;
+            height: 10%;
+            margin-top: 0.5%;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>To Do List</h1>
+        <div class="dropdown">
+            <button class="dropbtn">+</button>
+            <div class="dropdown-content">
+                <form id="formw">
+                    <label>Titel</label>
+                    <input type="text" name="activity" />
+                    <label>datum</label>
+                    <input type="text" name="date" />
+                    <br />
+                    <div id="submit" onclick="additem()">Lägg Till</div>
+                </form>
+
+
+            </div>
+        </div>
+    </header>
+    <div id="general">
+
+    </div>
+    <div id="update" onclick="start()">
+        update
+    </div>
+    <script>
+        var item = document.getElementsByClassName('listbox');
+        var general = document.getElementById("general");
+        var list;
+        var list2;
+
+        function start() {
+            orderlist();
+        }
+
+        function additem() {
+            //values from form
+            var date = document.getElementsByName("date")[0].value;
+            var activity = document.getElementsByName("activity")[0].value;
+
+            //adds html
+            var maintext = "<div class='listbox'>" + '<div class="del" onclick="del(this.childNodes[1].innerText)"> <p hidden class="hidp">' + activity + '</p> </div>' + "<h3>" + activity + "</h3>" + '<p class="dead">' + "deadline: " + date + "</p>"
+                + '<p class="status">' + "status: " + '<form class="formbox"><select name="boxstatus"><option value="b">Not Started</option><option value="c">Done</option><option value="a">Under Way</option></select ></form >' + '<form> <input class="numbox" type="number" name="order"> </form>' + "</p> </div>";
+            general.insertAdjacentHTML('beforeend', maintext);
+            setvalue();
+        }
+
+        function setvalue() {
+            //sets "order" value to index
+            var set = document.getElementsByName("order");
+            for (var i = 0; i < set.length; i++) {
+                set[i].value = i + 1;
+            }
+        }
+
+        function orderlist() {
+            //makes arrays empty
+            list = [];
+            list2 = [];
+            item = document.getElementsByClassName("listbox");
+            var to = document.getElementsByName("order");
+            
+
+            //loops to check positions of number
+            for (var i = 0; i < item.length; i++) {
+                sel(i);
+                for (var j = 0; j < item.length; j++) {
+
+                    //if item[j] wants to be in position i
+                    if (to[j].value - 1 == i) {
+                        move(j);
+                    }
+                    else if (!to[j].value) {
+                        break;
+                    }
+                }
+            }
+
+            //prints new order of items
+            for (var i = 0; i < list.length; i++) {
+                if (to[i].value) {
+                    item[i].innerHTML = list2[i];
+                }
+            }
+            setvalue();
+        }
+
+        function move(move) {
+            item = document.getElementsByClassName('listbox');
+
+            //adds items innerhtml to list array
+            if (list.length == 0) {
+                for (var i = 0; i < item.length; i++) {
+                    list.push(item[i].innerHTML);
+                }
+            }
+
+            //adds item[move] to list2 arrays last position
+            list2.push(list[move]);
+        }
+
+        function del(act) {
+            var hidden = document.getElementsByClassName("hidp");
+            var general = document.getElementById("general");
+
+            //loops to check title of the item and deletes item
+            for (var i = 0; i < hidden.length; i++) {
+                if (hidden[i].innerHTML == act) {
+                    general.removeChild(item[i]);
+                }
+            }
+        }
+
+        function sel() {
+            var uselec = document.getElementsByName("boxstatus");
+
+            //deletes all "selected" Attribute
+            for (var i = 0; i < item.length; i++) {
+                for (var j = 0; j < 3; j++) {
+                    var bool = uselec[i].childNodes[j].hasAttribute("selected");
+                    if (bool) {
+                        uselec[i].childNodes[j].removeAttribute("selected");
+                    }
+                }
+            }
+
+            //checks status and adds "selected" Attribute
+            for (var i = 0; i < item.length; i++) {
+                if (uselec[i].value == "a") {
+                    uselec[i].childNodes[2].setAttribute("selected", "selected");
+                    general.childNodes[i].style.backgroundColor = "#28a2fa";
+                }
+                else if (uselec[i].value == "b") {
+                    uselec[i].childNodes[0].setAttribute("selected", "selected");
+                    general.childNodes[i].style.backgroundColor = "#f04d24";
+                }
+                else if (uselec[i].value == "c") {
+                    uselec[i].childNodes[1].setAttribute("selected", "selected");
+                    general.childNodes[i].style.backgroundColor = "#24f05a"; 
+                }
+            }
+        }
+
+        function order() {
+            list = [];
+            list2 = [];
+
+            //checks if status is "under way"
+            var status = document.getElementsByName("boxstatus");
+            for (var h = 0; h < item.length; h++) {
+                if (status[h].value == "a") {
+                    console.log(status[h].value);
+                    move(h);
+                }
+            }
+
+             //checks if status is "not done"
+            for (var j = 0; j < item.length; j++) {
+
+                if (status[j].value == "b") {
+                    console.log(status[j].value);
+                    move(j);
+                }
+            }
+
+             //checks if status is "done"
+            for (var i = 0; i < item.length; i++) {
+
+                if (status[i].value == "c") {
+                    console.log(status[i].value);
+                    move(i);
+                }
+            }
+
+            //prints
+            for (var i = 0; i < list.length; i++) {
+                item[i].innerHTML = list2[i];
+
+            }
+            setvalue();
+        }
+
+    </script>
+</body>
+
+</html>
