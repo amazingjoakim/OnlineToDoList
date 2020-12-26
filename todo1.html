@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 
 <head>
@@ -7,114 +7,110 @@
     <style>
         #general {
             border: 2px solid lightgrey;
-            height: 100%;
-            width: 90%;
-            margin-left: 5%;
             background-color: white;
             overflow-y: scroll;
+            width: 70%;
+            height: 80%;
+            margin-left: 5%;
+            border-radius: 25px;
         }
 
         body {
-            height: 800px;
-            width: 1900px;
             background-color: #e8e8e8;
+            height: 96vh;
+            width: 98vw;
         }
 
         .listbox {
             background-color: #ec8840;
-            width: 90%;
+            width: 95%;
+            margin-left: 2.5%;
             height: 15%;
-            margin-left: 5%;
+            margin-top: 2%;
         }
 
         h3 {
-            font-size: 40px;
-            margin-left: 4%;
+            display: block;
+            font-size: 2vw;
+            margin-left: 6.5%;
             width: 50%;
-            margin-bottom: -0.5%;
+            margin-top: 0px;
+            margin-bottom: 0px;
         }
 
         .dead {
             float: left;
-            width: 15%;
-            font-size: 25px;
+            width: 30%;
+            font-size: 1.5vw;
             margin-left: 7%;
+            overflow: hidden;
+            margin: 0px;
+            margin-left: 6.5%;
+            margin-top: 1%;
         }
 
         h1 {
             margin-left: 5%;
             float: left;
+            width: 95%;
+            font-size: 2vw;
         }
 
         .status {
             float: left;
             padding-right: 1%;
-            font-size: 25px;
-        }
-
-        .dropbtn {
-            font-size: 40px;
-            float: right;
-            margin-right: 5%;
-            background-color: #ec8840;
-            width: 55px;
-            text-align: center;
-            height: 55px;
-            margin-top: 0.9%;
-            border: 0px;
-            cursor: pointer;
+            font-size: 1.5vw;
+            margin: 0px;
+            margin-top: 1%;
         }
 
         #update {
-            float: right;
-            font-size: 40px;
-            margin-right: 5%;
+            float: left;
             background-color: #ec8840;
-            height: 7%;
-            width: 7%;
+            height: 10%;
+            width: 37.3%;
             text-align: center;
             margin-top: 0.5%;
-        }
-
-        .dropdown {
-            position: relative;
-            display: inline-block;
-            float: right;
-            margin-right: 5%;
+            border-radius: 500px 100px 100px 500px;
+            margin-left: 12.5%;
+            font-size: 2vw;
         }
 
         .dropdown-content {
-            display: none; /*normalt 'none'*/
+            margin-top: 1%;
             position: absolute;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-            width: 300px;
-            height: 380px;
+            width: 25%;
+            height: 70%;
             right: 0;
             float: right;
             background-color: #e8e8e8;
-            border: 2px solid #ec8840;
         }
 
         #formw {
             background-color: white;
             width: 75%;
-            height: 300px;
+            height: 85%;
             margin-left: 12.5%;
-            margin-top: 12.5%;
-            border-radius: 3%;
+            border-radius: 50px;
             padding: 4px;
             box-sizing: border-box;
+            align-content: center;
+            text-align: center;
+            box-sizing: border-box;
+            padding-top: 15%;
         }
 
         label {
-            float: left;
+            width: 20%;
+            margin-right: 40%;
+            margin-left: 40%;
+            font-size: 1.5vw;
         }
 
         input {
-            float: left;
-            margin-right: 150px;
-            height: 5%;
+            width: 50%;
+            margin-top: 0%;
+            height: 4%;
         }
 
         select {
@@ -123,29 +119,25 @@
             margin-right: 190px;
         }
 
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
-        .dropdown:hover {
-            margin-right: 5px;
-        }
-
         #submit {
             border: 0px;
             width: 50%;
+            height: 5%;
             margin-left: 25%;
             margin-top: 15%;
             float: left;
             background-color: #ec8840;
-            border-radius: 15px;
+            border-radius: 500px;
             padding: 5px;
             text-align: center;
+            font-size: 1vw;
         }
 
         .formbox {
             float: left;
-            margin-top: 2%;
+            margin-top: 1.5%;
+            width: 10%;
+            height: 22%;
         }
 
         .del {
@@ -157,11 +149,79 @@
         }
 
         .numbox {
-            width: 2.5%;
+            width: 3%;
             float: right;
             margin-right: 2%;
             height: 10%;
+            margin-top: 0%;
+        }
+
+        .link {
+            background-color: orange;
+            width: 2%;
+            height: 100%;
+            float: left;
+            align-self: center;
+        }
+
+        #stopper {
+            width: 100%;
+            height: 5%;
+        }
+
+        #savebtn {
+            float: right;
+            font-size: 2vw;
+            background-color: #ec8840;
+            height: 10%;
+            width: 37.3%;
+            text-align: center;
             margin-top: 0.5%;
+            margin-right: 12.5%;
+            border-radius: 100px 500px 500px 100px;
+            padding: 0px;
+        }
+
+        #sortbtn {
+            float: right;
+            font-size: 2vw;
+            background-color: #ec8840;
+            height: 10%;
+            width: 75.3%;
+            text-align: center;
+            margin-top: 0.5%;
+            margin-right: 12.5%;
+            border-radius: 500px;
+        }
+
+        header {
+            width: 100%;
+            height: 10%;
+        }
+
+        #savebtn p {
+            top: 50%;
+            margin: 0px;
+            padding: 0px;
+            margin-top: 5%;
+        }
+
+        #update p {
+            margin: 0px;
+            padding: 0px;
+            margin-top: 5%;
+        }
+
+        #sortbtn p {
+            margin: 0px;
+            padding: 0px;
+            margin-top: 3%;
+        }
+
+        .boxstatus {
+            margin: 0px;
+            width: 100%;
+            height: 100%;
         }
     </style>
 </head>
@@ -169,20 +229,28 @@
 <body>
     <header>
         <h1>To Do List</h1>
-        <div class="dropdown">
-            <button class="dropbtn">+</button>
-            <div class="dropdown-content">
-                <form id="formw">
-                    <label>Titel</label>
-                    <input type="text" name="activity" />
-                    <label>datum</label>
-                    <input type="text" name="date" />
-                    <br />
-                    <div id="submit" onclick="additem()">Lägg Till</div>
-                </form>
 
-
-            </div>
-        </div>
     </header>
+    <div class="dropdown-content">
+        <form id="formw">
+            <label>Titel</label>
+            <input type="text" maxlength="63" name="activity" required />
+            <div id="stopper"></div>
+            <label>datum</label>
+            <input type="text" name="date" />
+            <br />
+            <div id="submit" onclick="additem()">Add Task</div>
+        </form>
+        <div id="update" onclick="start()">
+            <p> Update</p>
+        </div>
+        <div id="savebtn" onclick="save()">
+            <p> Save</p>
+        </div>
+        <div id="sortbtn" onclick="sort()">
+            <p>Sort</p>
+        </div>
+
+    </div>
     <div id="general">
+    

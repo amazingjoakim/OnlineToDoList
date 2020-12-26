@@ -21,9 +21,8 @@ myEvent.on('write', function (res) {
 
 http.createServer(function (req, res) {
     purl = url.parse(req.url, true);
-    filename = "." + purl.pathname;
+    var filename = "." + purl.pathname;
     console.log(filename);
-    bool = false;
     if (filename == "./") {
         filename = "./todo.html"
     }
@@ -34,12 +33,34 @@ http.createServer(function (req, res) {
         var savecontent;
         savecontent = q.tasks + "*" + q.qdate;
         fs.writeFileSync("indexlist.html", savecontent, 'utf-8');
-            console.log("file saved!");
+        console.log(savecontent + "file saved!");
         myEvent.emit('write', res);
     }
-    else {
+    else if (filename == "./todo.html") {
         myEvent.emit('write', res);
     }
+    else if (filename == "./tasklistW.html" || filename == "./tasklistR.html") {
+        if (typeof q.notetext != 'undefined') {
+            console.debug(" if of save: " + q.notetext);
+            fs.writeFileSync("Note.txt", q.notetext, 'utf-8');
+            console.log(" note file saved!");
+        }
+
+        var split = filename.split('.');
+        console.log("split: " + split[1] + "." + split[2]);
+
+        var datas = fs.readFileSync("." + split[1] + "1." + split[2], 'utf-8');
+        var datas1 = fs.readFileSync("./Note.txt", 'utf-8');
+        var datas2 = fs.readFileSync("." + split[1] + "2." + split[2], 'utf-8');
+        res.writeHead(200, { 'content-type': 'text/html' });
+
+        res.write(datas);
+        res.write(datas1);
+        res.write(datas2);
+        console.log("load end");
+        res.end();
+    }
+
 
 
     
@@ -51,6 +72,7 @@ function load(res, str) {
     console.log("load: " + task + " " + date);
 
     res.write("<div class='listbox'> \n"
+        + "<a href='http://localhost:8080/tasklistR.html'> <div class='link'></div></a> \n"
         + "<div class='del' onclick='del(this.childNodes[1].innerText)'> \n"
         + "<p hidden class='hidp'>" + task + "</p></div> \n"
         + "<h3>" + task + "</h3> \n"

@@ -1,0 +1,21 @@
+﻿</textarea>
+<div id="edit" onclick="save()"><p>Save</p></div>
+<a href="http://localhost:8080/tasklistR.html"><div id="back"><p>Back</p></div></a>
+<form action="./tasklistR.html" hidden id="formq"> <input type="text" name="notetext" /></form>
+
+<script>
+
+    function save() {
+        var text = document.getElementsByTagName("textarea");
+        var innertext = text[0].value;
+        var form = document.getElementById("formq");
+        form.childNodes[1].value = innertext;
+        console.log(form.childNodes[1]);
+        document.getElementById("formq").submit();
+
+    }
+
+</script>
+</body>
+
+</html>
