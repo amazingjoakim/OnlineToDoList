@@ -34,18 +34,18 @@
             font-size: 2vw;
             margin-left: 6.5%;
             width: 50%;
-            margin-top:0px;
+            margin-top: 0px;
             margin-bottom: 0px;
         }
 
         .dead {
             float: left;
-            width: 15%;
+            width: 30%;
             font-size: 1.5vw;
             margin-left: 7%;
             overflow: hidden;
             margin: 0px;
-            margin-left:6.5%;
+            margin-left: 6.5%;
             margin-top: 1%;
         }
 
@@ -108,7 +108,7 @@
         }
 
         input {
-          width:50%;
+            width: 50%;
             margin-top: 0%;
             height: 4%;
         }
@@ -146,7 +146,6 @@
             height: 100%;
             float: right;
             align-self: center;
-
         }
 
         .numbox {
@@ -164,10 +163,12 @@
             float: left;
             align-self: center;
         }
-        #stopper{
-            width:100%;
+
+        #stopper {
+            width: 100%;
             height: 5%;
         }
+
         #savebtn {
             float: right;
             font-size: 2vw;
@@ -178,8 +179,9 @@
             margin-top: 0.5%;
             margin-right: 12.5%;
             border-radius: 100px 500px 500px 100px;
-            padding:0px;
+            padding: 0px;
         }
+
         #sortbtn {
             float: right;
             font-size: 2vw;
@@ -191,30 +193,35 @@
             margin-right: 12.5%;
             border-radius: 500px;
         }
-        header{
+
+        header {
             width: 100%;
             height: 10%;
         }
+
         #savebtn p {
             top: 50%;
             margin: 0px;
             padding: 0px;
             margin-top: 5%;
         }
+
         #update p {
             margin: 0px;
             padding: 0px;
             margin-top: 5%;
         }
+
         #sortbtn p {
             margin: 0px;
             padding: 0px;
             margin-top: 3%;
         }
-        .boxstatus{
+
+        .boxstatus {
             margin: 0px;
             width: 100%;
-            height:100%;
+            height: 100%;
         }
     </style>
 </head>
@@ -232,17 +239,17 @@
             <label>datum</label>
             <input type="text" name="date" />
             <br />
-            <div id="submit" onclick="additem()">Add Task</div>
+            <div id="submit" onclick="addtask()">Add Task</div>
         </form>
-            <div id="update" onclick="start()">
-               <p> Update</p>
-            </div>
-            <div id="savebtn" onclick="save()">
-               <p> Save</p>
-            </div>
-            <div id="sortbtn" onclick="sort()">
-               <p>Sort</p>
-            </div>
+        <div id="update" onclick="start()">
+            <p> Update</p>
+        </div>
+        <div id="savebtn" onclick="save()">
+            <p> Save</p>
+        </div>
+        <div id="sortbtn" onclick="sort()">
+            <p>Sort</p>
+        </div>
 
     </div>
     <div id="general">
@@ -252,7 +259,7 @@
         <input type="text" id="nameq" value="." name="qdate" />
     </form>
     <script>
-        var item = document.getElementsByClassName('listbox');
+        var tasklist = document.getElementsByClassName('listbox');
         var general = document.getElementById("general");
         var list;
         var list2;
@@ -260,10 +267,11 @@
         setvalue();
 
         function start() {
+            sel();
             orderlist();
         }
 
-        function additem() {
+        function addtask() {
             //values from form
             var date = document.getElementsByName("date")[0].value;
             var activity = document.getElementsByName("activity")[0].value;
@@ -287,9 +295,9 @@
 
         function setvalue() {
             //sets "order" value to index
-            var set = document.getElementsByName("order");
-            for (var i = 0; i < set.length; i++) {
-                set[i].value = i + 1;
+            var order = document.getElementsByName("order");
+            for (var i = 0; i < order.length; i++) {
+                order[i].value = i + 1;
             }
         }
 
@@ -297,44 +305,54 @@
             //makes arrays empty
             list = [];
             list2 = [];
-            item = document.getElementsByClassName("listbox");
-            var to = document.getElementsByName("order");
-            sel();
+            tasklist = document.getElementsByClassName("listbox");
+            var futureindex = document.getElementsByName("order");
+            var long = 0;
+
+            for (var i = 0; i < to.length; i++) {
+                if (to[i].value > long) {
+                    long = to[i].value;
+                }
+            }
+
+            if (long > item.length) {
+                setvalue();
+            }
 
             //loops to check positions of number
-            for (var i = 0; i < item.length; i++) {
-                for (var j = 0; j < item.length; j++) {
+            for (var i = 0; i < tasklist.length; i++) {
+                for (var j = 0; j < tasklist.length; j++) {
 
-                    //if item[j] wants to be in position i
-                    if (to[j].value - 1 == i) {
+                    //if tasklist[j] wants to be in position i
+                    if (futureindex[j].value - 1 == i) {
                         move(j);
                     }
-                    else if (!to[j].value) {
+                    else if (!futureindex[j].value) {
                         break;
                     }
                 }
             }
 
-            //prints new order of items
+            //prints new order of tasks
             for (var i = 0; i < list.length; i++) {
-                if (to[i].value) {
-                    item[i].innerHTML = list2[i];
+                if (futureindex[i].value) {
+                    tasklist[i].innerHTML = list2[i];
                 }
             }
             setvalue();
         }
 
         function move(move) {
-            item = document.getElementsByClassName('listbox');
+            tasklist = document.getElementsByClassName('listbox');
 
-            //adds items innerhtml to list array
+            //adds tasks innerhtml to list array
             if (list.length == 0) {
-                for (var i = 0; i < item.length; i++) {
-                    list.push(item[i].innerHTML);
+                for (var i = 0; i < tasklist.length; i++) {
+                    list.push(tasklist[i].innerHTML);
                 }
             }
 
-            //adds item[move] to list2 arrays last position
+            //adds tasklist[move] to list2 arrays last position
             list2.push(list[move]);
         }
 
@@ -342,37 +360,48 @@
             var hidden = document.getElementsByClassName("hidp");
             var general = document.getElementById("general");
 
-            //loops to check title of the item and deletes item
+            //loops to check title of the tasks and deletes task
             for (var i = 0; i < hidden.length; i++) {
                 if (hidden[i].innerHTML == act) {
-                    general.removeChild(item[i]);
+                    general.removeChild(tasklist[i]);
                 }
             }
         }
 
         function sel() {
-            var uselec = document.getElementsByName("boxstatus");
+            var userselect = document.getElementsByName("boxstatus");
+            var copy = [];
+
+            for (var i = 0; i < item.length; i++) {
+                copy.push(false);
+            }
+
             for (var i = 0; i < item.length; i++) {
                 for (var j = 0; j < 3; j++) {
-                    var bool = uselec[i].childNodes[j].hasAttribute("selected");
+                    var bool = userselect[i].childNodes[j].hasAttribute("selected");
+                    console.log("val innerhtml: " + userselect[i].childNodes[j].value);
                     if (bool) {
-                        uselec[i].childNodes[j].removeAttribute("selected");
+                        if (userselect[i].value == userselect[i].childNodes[j].value) {
+                            console.log("samma");
+                            copy[i] = true;
+                        }
+                        else {
+                            userselect[i].childNodes[j].removeAttribute("selected");
+                        }
                     }
                 }
             }
 
+
             for (var i = 0; i < item.length; i++) {
-                if (uselec[i].value == "a") {
-                    uselec[i].childNodes[2].setAttribute("selected", "selected");
-                    document.getElementsByClassName("listbox")[i].style.backgroundColor = "#28a2fa";
+                if (userselect[i].value == "a" && copy[i] == false) {
+                    userselect[i].childNodes[2].setAttribute("selected", "selected");
                 }
-                else if (uselec[i].value == "b") {
-                    uselec[i].childNodes[0].setAttribute("selected", "selected");
-                    document.getElementsByClassName("listbox")[i].style.backgroundColor = "#f04d24";
+                else if (userselect[i].value == "b" && copy[i] == false) {
+                    userselect[i].childNodes[0].setAttribute("selected", "selected");
                 }
-                else if (uselec[i].value == "c") {
-                    uselec[i].childNodes[1].setAttribute("selected", "selected");
-                    document.getElementsByClassName("listbox")[i].style.backgroundColor = "#24f05a";
+                else if (userselect[i].value == "c" && copy[i] == false) {
+                    userselect[i].childNodes[1].setAttribute("selected", "selected");
                 }
             }
         }
@@ -383,20 +412,20 @@
             sel();
 
             var status = document.getElementsByName("boxstatus");
-            for (var h = 0; h < item.length; h++) {
+            for (var h = 0; h < tasklist.length; h++) {
                 if (status[h].value == "a") {
                     move(h);
                 }
             }
 
-            for (var j = 0; j < item.length; j++) {
+            for (var j = 0; j < tasklist.length; j++) {
 
                 if (status[j].value == "b") {
                     move(j);
                 }
             }
 
-            for (var i = 0; i < item.length; i++) {
+            for (var i = 0; i < tasklist.length; i++) {
 
                 if (status[i].value == "c") {
                     move(i);
@@ -404,7 +433,7 @@
             }
 
             for (var i = 0; i < list.length; i++) {
-                item[i].innerHTML = list2[i];
+                tasklist[i].innerHTML = list2[i];
 
             }
             setvalue();
@@ -412,12 +441,16 @@
 
         function save() {
             var form = document.getElementById("hiddenform");
-            form.firstChild.value = document.getElementsByClassName('hidp')[0].innerText;
-            console.log(document.getElementsByClassName('hidp')[0].innerText);
+            form.childNodes[1].value = document.getElementsByClassName('hidp')[0].innerText;
+            console.log("form chidl[1]" + form.childNodes[1].value);
             var det = document.getElementsByClassName('dead')[0].innerText.split(' ');
-            document.getElementsByName("qdate")[0].value = det[1];
+
+            if (typeof det[1] == 'undefined') { document.getElementsByName("qdate")[0].value = " " }
+            else { document.getElementsByName("qdate")[0].value = det[1]; }
+
             console.log(document.getElementsByName("qdate")[0].value);
             form.submit();
+
 
         }
 
