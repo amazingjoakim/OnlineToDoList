@@ -73,7 +73,7 @@ function load(res, str) {
 
     res.write("<div class='listbox'> \n"
         + "<a href='http://localhost:8080/tasklistR.html'> <div class='link'></div></a> \n"
-        + "<div class='del' onclick='del(this.childNodes[1].innerText)'> \n"
+        + "<div class='del' onclick='deleted(this.childNodes[1].innerText)'> \n"
         + "<p hidden class='hidp'>" + task + "</p></div> \n"
         + "<h3>" + task + "</h3> \n"
         + "<p class='dead'> Deadline: " + date + "</p> \n"

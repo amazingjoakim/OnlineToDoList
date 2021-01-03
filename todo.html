@@ -6,7 +6,7 @@
     <title>To Do List</title>
     <style>
         #general {
-            border: 2px solid lightgrey;
+            border: 2px solid #FCFFF7; /*lightgrey*/
             background-color: white;
             overflow-y: scroll;
             width: 70%;
@@ -16,13 +16,13 @@
         }
 
         body {
-            background-color: #e8e8e8;
+            background-color: #F1F6F9; /*e8e8e8*/
             height: 96vh;
             width: 98vw;
         }
 
         .listbox {
-            background-color: #ec8840;
+            background-color: #354596;
             width: 95%;
             margin-left: 2.5%;
             height: 15%;
@@ -66,7 +66,7 @@
 
         #update {
             float: left;
-            background-color: #ec8840;
+            background-color: #354596;
             height: 10%;
             width: 37.3%;
             text-align: center;
@@ -83,7 +83,7 @@
             height: 70%;
             right: 0;
             float: right;
-            background-color: #e8e8e8;
+            background-color: #F1F6F9; /*e8e8e8*/
         }
 
         #formw {
@@ -126,7 +126,8 @@
             margin-left: 25%;
             margin-top: 15%;
             float: left;
-            background-color: #ec8840;
+            background-color: #354596;
+            color: white;
             border-radius: 500px;
             padding: 5px;
             text-align: center;
@@ -141,7 +142,7 @@
         }
 
         .del {
-            background-color: red;
+            background-color: #00072D;
             width: 2%;
             height: 100%;
             float: right;
@@ -157,7 +158,7 @@
         }
 
         .link {
-            background-color: orange;
+            background-color: #00072D;
             width: 2%;
             height: 100%;
             float: left;
@@ -172,7 +173,7 @@
         #savebtn {
             float: right;
             font-size: 2vw;
-            background-color: #ec8840;
+            background-color: #354596;
             height: 10%;
             width: 37.3%;
             text-align: center;
@@ -185,7 +186,7 @@
         #sortbtn {
             float: right;
             font-size: 2vw;
-            background-color: #ec8840;
+            background-color: #354596; /*#ec8840*/
             height: 10%;
             width: 75.3%;
             text-align: center;
@@ -204,18 +205,21 @@
             margin: 0px;
             padding: 0px;
             margin-top: 5%;
+            color: white;
         }
 
         #update p {
             margin: 0px;
             padding: 0px;
             margin-top: 5%;
+            color: white;
         }
 
         #sortbtn p {
             margin: 0px;
             padding: 0px;
             margin-top: 3%;
+            color: white;
         }
 
         .boxstatus {
@@ -259,6 +263,7 @@
         <input type="text" id="nameq" value="." name="qdate" />
     </form>
     <script>
+        //DECLARATIONS
         var tasklist = document.getElementsByClassName('listbox');
         var general = document.getElementById("general");
         var list;
@@ -267,10 +272,13 @@
         setvalue();
 
         function start() {
-            sel();
+            selected();
             orderlist();
         }
 
+        /* METHOD: addtask()
+           * PURPOSE: adds task to the list of tasks
+           */
         function addtask() {
             //values from form
             var date = document.getElementsByName("date")[0].value;
@@ -278,8 +286,8 @@
             if (activity != "") {
                 //adds html
                 var maintext = "<div class='listbox'> \n"
-                    + "<a href='http://localhost:8080/tasklistRead.html'> <div class='link'></div></a> \n"
-                    + "<div class='del' onclick='del(this.childNodes[1].innerText)'> \n"
+                    + "<a href='http://localhost:8080/tasklistR.html'> <div class='link'></div></a> \n"
+                    + "<div class='del' onclick='deleted(this.childNodes[1].innerText)'> \n"
                     + "<p hidden class='hidp'>" + activity + "</p></div> \n"
                     + "<h3>" + activity + "</h3> \n"
                     + "<p class='dead'> Deadline: " + date + "</p> \n"
@@ -293,6 +301,9 @@
             setvalue();
         }
 
+        /* METHOD: setvalue()
+           * PURPOSE: makes the 'order' value same as the current position of task
+           */
         function setvalue() {
             //sets "order" value to index
             var order = document.getElementsByName("order");
@@ -301,6 +312,9 @@
             }
         }
 
+        /* METHOD: orderlist()
+           * PURPOSE: rearranges the list according to 'order' digits
+           */
         function orderlist() {
             //makes arrays empty
             list = [];
@@ -309,13 +323,14 @@
             var futureindex = document.getElementsByName("order");
             var long = 0;
 
-            for (var i = 0; i < to.length; i++) {
-                if (to[i].value > long) {
-                    long = to[i].value;
+            //makes sure no 'order' digit is longer than the list of tasks
+            for (var i = 0; i < futureindex.length; i++) {
+                if (futureindex[i].value > long) {
+                    long = futureindex[i].value;
                 }
             }
 
-            if (long > item.length) {
+            if (long > tasklist.length) {
                 setvalue();
             }
 
@@ -342,6 +357,10 @@
             setvalue();
         }
 
+        /* METHOD: move()
+           * PURPOSE: puts the new order of tasks in a new array
+           * PARAMETERS: move: old digit of a task
+           */
         function move(move) {
             tasklist = document.getElementsByClassName('listbox');
 
@@ -356,7 +375,11 @@
             list2.push(list[move]);
         }
 
-        function del(act) {
+        /* METHOD: deleted()
+           * PURPOSE: deletes specifik task
+           * PARAMETERS: act: title of the task to be deleted
+           */
+        function deleted(act) {
             var hidden = document.getElementsByClassName("hidp");
             var general = document.getElementById("general");
 
@@ -368,15 +391,19 @@
             }
         }
 
-        function sel() {
+        /* METHOD: selected()
+           * PURPOSE: adds selected attribute to status of tasks
+           */
+        function selected() {
             var userselect = document.getElementsByName("boxstatus");
             var copy = [];
 
-            for (var i = 0; i < item.length; i++) {
+            for (var i = 0; i < tasklist.length; i++) {
                 copy.push(false);
             }
 
-            for (var i = 0; i < item.length; i++) {
+            // deletes selected attribute if necessary
+            for (var i = 0; i < tasklist.length; i++) {
                 for (var j = 0; j < 3; j++) {
                     var bool = userselect[i].childNodes[j].hasAttribute("selected");
                     console.log("val innerhtml: " + userselect[i].childNodes[j].value);
@@ -392,8 +419,8 @@
                 }
             }
 
-
-            for (var i = 0; i < item.length; i++) {
+            //adds selected attribute to selected status
+            for (var i = 0; i < tasklist.length; i++) {
                 if (userselect[i].value == "a" && copy[i] == false) {
                     userselect[i].childNodes[2].setAttribute("selected", "selected");
                 }
@@ -406,10 +433,13 @@
             }
         }
 
-        function order() {
+        /* METHOD: sort()
+           * PURPOSE: sorts tasks in order of status, 1.under way,2.not done,3.done
+           */
+        function sort() {
             list = [];
             list2 = [];
-            sel();
+            selected();
 
             var status = document.getElementsByName("boxstatus");
             for (var h = 0; h < tasklist.length; h++) {
@@ -439,6 +469,9 @@
             setvalue();
         }
 
+        /* METHOD: save()
+           * PURPOSE: sends only the first tasks title and date to server
+           */
         function save() {
             var form = document.getElementById("hiddenform");
             form.childNodes[1].value = document.getElementsByClassName('hidp')[0].innerText;
@@ -450,7 +483,6 @@
 
             console.log(document.getElementsByName("qdate")[0].value);
             form.submit();
-
 
         }
 
